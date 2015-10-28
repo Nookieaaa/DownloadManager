@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">DownloadManager</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!--Navigation drawer -->
+    <string name="action_settings">Settings</string>
+    <!-- Downloads section-->
+    <string name="drawer_menu_downloads">Downloads</string>
+    <string name="drawer_menu_downloads_all">All</string>
+    <string name="drawer_menu_downloads_video">Video</string>
+    <string name="drawer_menu_downloads_audio">Audio</string>
+    <string name="drawer_menu_downloads_apk">APK`s</string>
+    <string name="drawer_menu_downloads_other">Other</string>
+    <!-- Settings section -->
+    <string name="drawer_menu_settings">Settings</string>
+    <string name="drawer_menu_settings_standard">Standard settings</string>
+    <string name="drawer_menu_settings_advanced">Advanced settings</string>
+    <!-- end NavigationDrawer -->
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:title="@string/drawer_menu_downloads">
+            <menu>
+            <item android:id="@+id/menu_downloads_all" android:icon="@android:drawable/ic_menu_camera"
+                android:title="@string/drawer_menu_downloads_all" />
+            <item android:id="@+id/menu_downloads_video" android:icon="@android:drawable/ic_menu_gallery"
+                android:title="@string/drawer_menu_downloads_video" />
+            <item android:id="@+id/menu_downloads_audio" android:icon="@android:drawable/ic_menu_slideshow"
+                android:title="@string/drawer_menu_downloads_audio" />
+            <item android:id="@+id/menu_downloads_apk" android:icon="@android:drawable/ic_menu_manage"
+                android:title="@string/drawer_menu_downloads_apk" />
+            <item android:id="@+id/menu_downloads_other" android:title="@string/drawer_menu_downloads_other"
+                />
+            </menu>
+        </item>
+    </group>
+
+    <item android:title="Settings">
+        <menu>
+            <item android:id="@+id/menu_settings_standard" android:icon="@android:drawable/ic_menu_share"
+                android:title="@string/drawer_menu_settings_standard" />
+            <item android:id="@+id/menu_settings_advanced" android:icon="@android:drawable/ic_menu_send"
+                android:title="@string/drawer_menu_settings_advanced" />
+        </menu>
+    </item>
+
+</menu>
