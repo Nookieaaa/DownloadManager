@@ -2,6 +2,7 @@ package com.nookdev.downloadmanager.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ public class DownloaderService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d("downloadservice", "service created");
+        registerReceiver(new TaskReceiver(),new IntentFilter(TaskReceiver.BROADCAST_ACTION_ADD));
 
     }
 

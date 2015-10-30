@@ -43,6 +43,7 @@ public class MainScreen extends AppCompatActivity
         ButterKnife.bind(this);
         attachFragment();
         setUpViews();
+        //startService(new Intent(this, DownloaderService.class));
 
 
 
