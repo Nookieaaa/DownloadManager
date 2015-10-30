@@ -10,8 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nookdev.downloadmanager.R;
-import com.nookdev.downloadmanager.database.DatabaseController;
-import com.nookdev.downloadmanager.database.models.Task;
 import com.nookdev.downloadmanager.views.model.DownloadItemModel;
 
 import java.util.ArrayList;
@@ -70,8 +68,9 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<DownloadsListAdap
             @Override
             public void onClick(View v) {
                 //App.getAppContext().startService(new Intent(App.getAppContext(), DownloaderService.class));
-                DatabaseController dbC = new DatabaseController();
-                dbC.add(new Task("source","out","filename","mpg",10,2,0));
+                //DatabaseController dbC = new DatabaseController();
+                //dbC.add(new Task("source","out","filename","mpg",10,2,0));
+
             }
         });
     }
