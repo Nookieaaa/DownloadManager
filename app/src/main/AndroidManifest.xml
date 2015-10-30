@@ -29,7 +29,7 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-        <receiver android:name=".service.TaskReceiver"
+        <receiver android:name=".TaskReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -2,12 +2,10 @@ package com.nookdev.downloadmanager.service;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.nookdev.downloadmanager.service.manager.DownloadManager;
-import com.nookdev.downloadmanager.service.manager.DownloadThread;
 
 public class DownloaderService extends Service {
     private DownloadManager downloadManager;
@@ -21,7 +19,6 @@ public class DownloaderService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.d("downloadservice", "service created");
-        registerReceiver(new TaskReceiver(),new IntentFilter(TaskReceiver.BROADCAST_ACTION_ADD));
 
     }
 
@@ -29,8 +26,9 @@ public class DownloaderService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        DownloadThread downloadThread = new DownloadThread();
-        downloadThread.start();
+        /*DownloadThread downloadThread = new DownloadThread();
+        downloadThread.start();*/
+        Log.d("SERVICE","starting");
 
         return super.onStartCommand(intent, flags, startId);
     }

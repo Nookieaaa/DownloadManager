@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.nookdev.downloadmanager.App;
 import com.nookdev.downloadmanager.R;
-import com.nookdev.downloadmanager.service.TaskReceiver;
+import com.nookdev.downloadmanager.TaskReceiver;
 
 public class DownloadDialog extends DialogFragment implements View.OnClickListener {
 

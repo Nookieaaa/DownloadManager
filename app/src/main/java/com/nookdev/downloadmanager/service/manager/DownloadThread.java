@@ -26,6 +26,9 @@ public class DownloadThread extends Thread {
             conn.connect();
 
             File sdcard = Environment.getExternalStorageDirectory();
+
+            //String filename = URLUtil.guessFileName(url.toString(),,conn.getContentType());
+
             File file = new File(sdcard,"test file.avi");
             FileOutputStream fos = new FileOutputStream(file);
             InputStream fis = conn.getInputStream();
