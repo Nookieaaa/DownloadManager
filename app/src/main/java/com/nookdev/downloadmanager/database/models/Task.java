@@ -7,7 +7,7 @@ import com.nookdev.downloadmanager.database.DbOpenHelper;
 
 import java.util.List;
 
-public class Task {
+public class Task{
     private int id;
     private String filename;
     private String source;
@@ -58,4 +58,35 @@ public class Task {
         return cv;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getParts_count() {
+        return parts_count;
+    }
+
+    public int getStatus() {
+        return status;
+    }
 }

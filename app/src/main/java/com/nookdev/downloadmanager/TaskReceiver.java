@@ -19,6 +19,9 @@ public class TaskReceiver extends BroadcastReceiver {
             case BROADCAST_ACTION_ADD:{
                 String url = intent.getStringExtra("url");
                 String filename = intent.getStringExtra("filename");
+                Intent intent1 = new Intent(context, DownloaderService.class);
+                intent1.putExtra("download","1");
+                context.startService(intent1);
                 break;
             }
             case BROADCAST_ACTION_BOOT:{
