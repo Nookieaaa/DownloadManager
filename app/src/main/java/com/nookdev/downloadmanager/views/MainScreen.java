@@ -1,5 +1,6 @@
 package com.nookdev.downloadmanager.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 
 import com.nookdev.downloadmanager.R;
 
@@ -43,16 +45,40 @@ public class MainScreen extends AppCompatActivity
         ButterKnife.bind(this);
         attachFragment();
         setUpViews();
-        //startService(new Intent(this, DownloaderService.class));
+        //handleNewDownload();
+    }
 
 
+
+    private void handleNewDownload() {
+        Intent startIntent = getIntent();
+
+        switch (startIntent.getAction()){
+            case Intent.ACTION_MAIN: {
+                return;
+            }
+            case Intent.ACTION_VIEW:{
+                FragmentManager fm = getSupportFragmentManager();
+                if (fm.findFragmentByTag(DownloadDialog.TAG_NAME)==null)
+                {
+                    DownloadDialog dialog = new DownloadDialog();
+                    String source = startIntent.getDataString();
+                    String filename = URLUtil.guessFileName(startIntent.getDataString(), null, null);
+                    dialog.setSource(source);
+                    dialog.setFilename(filename);
+                    dialog.show(fm, DownloadDialog.TAG_NAME);
+                }
+            }
+        }
 
     }
 
     @OnClick (R.id.fab)
     public void fabClick(View v){
-        DownloadDialog dd = new DownloadDialog();
-        dd.show(getSupportFragmentManager(),"dialog");
+        Intent intent = new Intent(this, NewDownloadActivity.class);
+        startActivity(intent);
+       /* DownloadDialog dd = new DownloadDialog();
+        dd.show(getSupportFragmentManager(),"dialog");*/
     }
 
     private void setUpViews() {
@@ -68,10 +94,12 @@ public class MainScreen extends AppCompatActivity
 
     private void attachFragment() {
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        DownloadsListFragment downloadsListFragment = new DownloadsListFragment();
-        ft.add(R.id.mainframe,downloadsListFragment,DownloadsListFragment.TAG_NAME);
-        ft.commit();
+        if (fm.findFragmentByTag(DownloadsListFragment.TAG_NAME)==null) {
+            FragmentTransaction ft = fm.beginTransaction();
+            DownloadsListFragment downloadsListFragment = new DownloadsListFragment();
+            ft.add(R.id.mainframe, downloadsListFragment, DownloadsListFragment.TAG_NAME);
+            ft.commit();
+        }
     }
 
     @Override
@@ -88,6 +116,12 @@ public class MainScreen extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_screen, menu);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
     }
 
     @Override

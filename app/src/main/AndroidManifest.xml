@@ -3,7 +3,7 @@
     package="com.nookdev.downloadmanager" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
@@ -22,6 +22,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:scheme="ftp" />
+                <data android:scheme="file" />
+                <data android:scheme="data" />
+                <data android:scheme="info" />
+                <data android:scheme="data" />
+                <data android:scheme="smb" />
+                <data android:scheme="nfs" />
+                <data android:host="*" />
+                <data android:pathPattern="/.*\\.avi" />
+            </intent-filter>
         </activity>
 
         <service
@@ -29,14 +47,19 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-        <receiver android:name=".TaskReceiver"
+
+        <receiver
+            android:name=".TaskReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
-                <action android:name="com.nookdev.downloadmanager.add"/>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.nookdev.downloadmanager.add" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".views.NewDownloadActivity" >
+        </activity>
     </application>
 
 </manifest>
