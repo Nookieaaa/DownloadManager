@@ -28,20 +28,16 @@ public class DownloaderService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        /*Consumer downloadThread = new Consumer();
-        downloadThread.start();*/
-        if (intent.hasExtra("download")) {
-            if (intent.getStringExtra("download").toString().equals("1")) {
-                downloadManager = DownloadManager.getInstance();
-                Task task = new Task("http://www.ex.ua/load/24014293", "file.mp4", "file.mp4", "mp4", 0, 1, 1);
-                Task task2 = new Task("http://www.ex.ua/load/24014293", "file1.mp4", "file1.mp4", "mp4", 0, 1, 1);
-                Task task3 = new Task("http://www.ex.ua/load/24014293", "file2.mp4", "file2.mp4", "mp4", 0, 1, 1);
-                downloadManager.enqueue(task);
-                downloadManager.enqueue(task2);
-                downloadManager.enqueue(task3);
-                downloadManager.start();
-            }
+        if (intent.hasExtra("url")&&intent.hasExtra("filename")) {
+            downloadManager = DownloadManager.getInstance();
+            String url = intent.getStringExtra("url");
+            String filename = intent.getStringExtra("filename");
+            String filepath = intent.getStringExtra("filepath");
+            Task task = new Task(url,filepath,filename,"ext",0,1,0);
+            downloadManager.enqueue(task);
+            downloadManager.start();
         }
+
         Log.d("SERVICE","starting");
 
         return super.onStartCommand(intent, flags, startId);

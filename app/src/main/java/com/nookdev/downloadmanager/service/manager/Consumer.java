@@ -1,9 +1,12 @@
 package com.nookdev.downloadmanager.service.manager;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
+import com.nookdev.downloadmanager.App;
 import com.nookdev.downloadmanager.database.models.Task;
 
 import java.io.File;
@@ -35,12 +38,17 @@ public class Consumer implements Runnable {
         try {
             URL url = new URL(task.getSource());
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.connect();
 
+            Intent progressIntent = new Intent(DownloadManager.ACTION_PROGRESS_UPDATE);
+            progressIntent.putExtra(DownloadManager.EXTRA_PROGRESS, 0);
+            Context context = App.getAppContext();
+            context.sendBroadcast(progressIntent);
+
             String downloadsFolderName = "nookloader";
-            File downloadsFolder = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),downloadsFolderName);
+            File downloadsFolder = new File(Environment.getExternalStorageDirectory(),downloadsFolderName);
             if (!downloadsFolder.exists()){
                 downloadsFolder.mkdirs();
             }
@@ -51,14 +59,25 @@ public class Consumer implements Runnable {
             FileOutputStream fos = new FileOutputStream(file);
             InputStream fis = conn.getInputStream();
             byte[] buffer = new byte[bufferSize];
-            int bufferLength = 0;
-            long startTime = System.currentTimeMillis();
+
+            int bufferLength=0;
             int downloaded = 0;
             int originalSize = conn.getContentLength();
+
+            long currentTime;
+            long lastUpdate = System.currentTimeMillis();
 
             while ((bufferLength=fis.read(buffer))>0){
                 fos.write(buffer,0,bufferLength);
                 downloaded += bufferLength;
+
+                currentTime = System.currentTimeMillis();
+                if(currentTime-lastUpdate>=DownloadManager.UPDATE_INTERVAL_MS) {
+                    float progress = (float)downloaded/originalSize*100;
+                    progressIntent.putExtra(DownloadManager.EXTRA_PROGRESS,progress);
+                    lastUpdate = currentTime;
+                    context.sendBroadcast(progressIntent);
+                }
             }
             fos.flush();
             fos.close();

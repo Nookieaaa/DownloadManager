@@ -13,7 +13,7 @@ import android.widget.Spinner;
 
 import com.nookdev.downloadmanager.App;
 import com.nookdev.downloadmanager.R;
-import com.nookdev.downloadmanager.TaskReceiver;
+import com.nookdev.downloadmanager.service.DownloaderService;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,10 +45,10 @@ public class DownloadDialog extends DialogFragment {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(TaskReceiver.BROADCAST_ACTION_ADD);
+                Intent intent = new Intent(getContext(), DownloaderService.class);
                 intent.putExtra("url", source);
                 intent.putExtra("filename", filename);
-                App.getAppContext().sendBroadcast(intent);
+                App.getAppContext().startService(intent);
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

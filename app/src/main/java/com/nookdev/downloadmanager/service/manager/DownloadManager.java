@@ -1,12 +1,18 @@
 package com.nookdev.downloadmanager.service.manager;
 
 
+import com.nookdev.downloadmanager.App;
 import com.nookdev.downloadmanager.database.models.Task;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class DownloadManager {
+    public static final String ACTION_PROGRESS_UPDATE = App.getAppContext().getPackageName()
+            + ".progressupdate";
+    public static final String EXTRA_PROGRESS = "progress";
+    public static final int UPDATE_INTERVAL_MS = 500;
+
     LinkedBlockingQueue<Task> workQueue = new LinkedBlockingQueue<Task>();
     ThreadPoolExecutor executor;
 

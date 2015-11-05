@@ -32,6 +32,7 @@ public class DownloadsListFragment extends Fragment {
         return v;
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -1,6 +1,9 @@
 package com.nookdev.downloadmanager.views;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -11,12 +14,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 
 import com.nookdev.downloadmanager.R;
+import com.nookdev.downloadmanager.service.manager.DownloadManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +42,7 @@ public class MainScreen extends AppCompatActivity
     @Bind(R.id.drawer_layout)
     DrawerLayout drawer;
 
+    BroadcastReceiver br;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +51,29 @@ public class MainScreen extends AppCompatActivity
         ButterKnife.bind(this);
         attachFragment();
         setUpViews();
-        //handleNewDownload();
+        handleNewDownload();
+
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("progress",String.valueOf(intent.getFloatExtra(DownloadManager.EXTRA_PROGRESS,0)));
+            }
+        };
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_PROGRESS_UPDATE);
+        registerReceiver(br,intentFilter);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(br);
+    }
 
     private void handleNewDownload() {
         Intent startIntent = getIntent();
