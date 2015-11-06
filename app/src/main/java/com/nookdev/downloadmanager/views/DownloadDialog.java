@@ -13,6 +13,8 @@ import android.widget.Spinner;
 
 import com.nookdev.downloadmanager.App;
 import com.nookdev.downloadmanager.R;
+import com.nookdev.downloadmanager.database.DatabaseController;
+import com.nookdev.downloadmanager.database.models.Task;
 import com.nookdev.downloadmanager.service.DownloaderService;
 
 import butterknife.Bind;
@@ -45,10 +47,16 @@ public class DownloadDialog extends DialogFragment {
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                addToDatabase(source,filename);
                 Intent intent = new Intent(getContext(), DownloaderService.class);
                 intent.putExtra("url", source);
                 intent.putExtra("filename", filename);
                 App.getAppContext().startService(intent);
+            }
+
+            private void addToDatabase(String source, String filename) {
+                DatabaseController databaseController = new DatabaseController();
+                databaseController.add(new Task(source,filename));
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

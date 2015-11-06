@@ -2,6 +2,7 @@ package com.nookdev.downloadmanager.database;
 
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -39,4 +40,10 @@ public class DatabaseController {
         boolean result = false;
         return result;
     }
+
+    public Cursor query(){
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        return db.query(DbOpenHelper.TasksDB.TABLE_NAME,null,null,null,null,null,null);
+    }
+
 }

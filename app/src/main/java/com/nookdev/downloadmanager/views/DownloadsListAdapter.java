@@ -1,6 +1,7 @@
 package com.nookdev.downloadmanager.views;
 
 
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nookdev.downloadmanager.R;
-import com.nookdev.downloadmanager.views.model.DownloadItemModel;
+import com.nookdev.downloadmanager.database.DatabaseController;
+import com.nookdev.downloadmanager.database.models.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,33 +22,21 @@ import butterknife.ButterKnife;
 
 public class DownloadsListAdapter extends RecyclerView.Adapter<DownloadsListAdapter.DownloadsListViewHolder> {
 
-    List<DownloadItemModel> data;
+    List<Task> data;
+    DatabaseController databaseController;
 
     public DownloadsListAdapter() {
+        data = new ArrayList<>();
+        databaseController = new DatabaseController();
         //TODO delete this
-        fillDummyData();
+        updateData();
     }
 
-    public void fillDummyData() {
-        data = new ArrayList<DownloadItemModel>();
-        data.add(new DownloadItemModel(5, "Video"));
-        data.add(new DownloadItemModel(10, "Image"));
-        data.add(new DownloadItemModel(15, "Video3"));
-        data.add(new DownloadItemModel(20, "Audio"));
-        data.add(new DownloadItemModel(10, "Image"));
-        data.add(new DownloadItemModel(30, "Audio"));
-        data.add(new DownloadItemModel(50, "Document"));
-        data.add(new DownloadItemModel(77, "APK"));
-        data.add(new DownloadItemModel(96, "Audio"));
-        data.add(new DownloadItemModel(5, "Video"));
-        data.add(new DownloadItemModel(10, "Image"));
-        data.add(new DownloadItemModel(15, "Video3"));
-        data.add(new DownloadItemModel(20, "Audio"));
-        data.add(new DownloadItemModel(10, "Image"));
-        data.add(new DownloadItemModel(30, "Audio"));
-        data.add(new DownloadItemModel(50, "Document"));
-        data.add(new DownloadItemModel(77, "APK"));
-        data.add(new DownloadItemModel(96, "Audio"));
+    public void updateData() {
+        Cursor c = databaseController.query();
+        while(c.moveToNext()){
+            data.add(new Task(c));
+        }
     }
 
 
@@ -59,11 +49,11 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<DownloadsListAdap
 
     @Override
     public void onBindViewHolder(DownloadsListViewHolder holder, int position) {
-        DownloadItemModel item = data.get(position);
+        Task task = data.get(position);
         //TODO implement filling
-        holder.fileName.setText(item.getFilename());
-        holder.progress.setProgress(item.getProgress());
-        holder.status.setText(item.getState());
+        holder.fileName.setText(task.getFilename());
+        holder.progress.setProgress(0);
+        holder.status.setText("active");
         holder.quickAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
